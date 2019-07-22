@@ -35,8 +35,9 @@ describe('users routes', () => {
         username: 'test@test.com',
         password: 'password',
         profilePhotoUrl: 'http://test.jpeg'
-      })
+      })  
       .then(res => {
+        expect(res.header['set-cookie']).toBeTruthy();
         expect(res.body).toEqual({
           _id: expect.any(String),
           username: 'test@test.com',
@@ -54,6 +55,7 @@ describe('users routes', () => {
         password: 'password'
       })
       .then(res => {
+        expect(res.header['set-cookie']).toBeTruthy();
         expect(res.body).toEqual({
           _id: expect.any(String),
           username: 'signin@test.com',

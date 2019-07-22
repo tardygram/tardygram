@@ -64,4 +64,21 @@ describe('users routes', () => {
         });
       });
   });
+
+  it('verifies a user with token, returns user', () => {
+    const token = user.authToken();
+    return request(app)
+      .get('/api/v1/auth/verify')
+      .set('Cookie', [`session=${token}`])
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          username: 'signin@test.com',
+          profilePhotoUrl: 'http://test.jpeg',
+          __v: 0
+        });
+      });
+  });
+
+
 });

@@ -30,7 +30,6 @@ describe('users routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           username: 'test@test.com',
-          passwordHash: expect.any(String),
           profilePhotoUrl: 'http://test.jpeg',
           __v: 0
         });

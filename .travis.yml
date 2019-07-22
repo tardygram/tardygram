@@ -2,5 +2,5 @@ language: node_js
 node_js: node
 services: mongodb
 env: 
-  - MONGODB_URI=mongodb://localhost:27017/travis
+  - MONGODB_URI=mongodb://localhost:27017/tardygram
   - APP_SECRET=bQAODZJVkojPf85E1nRTuoy9HzcFkn

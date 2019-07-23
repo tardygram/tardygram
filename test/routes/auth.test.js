@@ -1,10 +1,10 @@
 require('dotenv').config();
 
 const request = require('supertest');
-const app = require('../lib/app');
-const connect = require('../lib/utils/connect');
+const app = require('../../lib/app');
+const connect = require('../../lib/utils/connect');
 const mongoose = require('mongoose');
-const User = require('../lib/models/User');
+const User = require('../../lib/models/User');
 
 describe('users routes', () => {
   beforeAll(() => {
@@ -35,7 +35,7 @@ describe('users routes', () => {
         username: 'test@test.com',
         password: 'password',
         profilePhotoUrl: 'http://test.jpeg'
-      })  
+      })
       .then(res => {
         expect(res.header['set-cookie']).toBeTruthy();
         expect(res.body).toEqual({

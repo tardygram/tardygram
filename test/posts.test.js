@@ -77,7 +77,6 @@ describe('users routes', () => {
   it('returns a post by its id', () => {
     return request(app)
       .get(`/api/v1/posts/${post._id}`)
-      .set('Cookie', [`session=${token}`])
       .then(res => {
         expect(res.body).toEqual({
           _id: post._id.toString(),

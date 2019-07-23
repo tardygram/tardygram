@@ -26,14 +26,12 @@ describe('users routes', () => {
       profilePhotoUrl: 'http://test.jpeg'
     });
     token = user.authToken();
-
     post = await Post.create({
       photoUrl: 'http://generic_photo.jpg',
       user: user._id,
       caption: 'Awesome pic!! Yay',
       tags: ['cats', 'kittens']
     });
-
   });
 
   afterAll(() => {
@@ -57,6 +55,27 @@ describe('users routes', () => {
           user: user._id.toString(),
           caption: 'Awesome pic!!',
           tags: ['dogs', 'puppies'],
+          __v: 0
+        });
+      });
+  });
+
+  it('updates a post', () => {
+    return request(app)
+      .patch(`/api/v1/posts/${post._id}`)
+      .set('Cookie', [`session=${token}`])
+      .send({
+        photoUrl: 'http://newPhoto.jpg',
+        caption: 'Awesome pic!! Again.',
+        tags: ['cats', 'kittens', 'rainbows'] 
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          user: user._id.toString(),
+          photoUrl: 'http://newPhoto.jpg',
+          caption: 'Awesome pic!! Again.',
+          tags: ['cats', 'kittens', 'rainbows'],
           __v: 0
         });
       });

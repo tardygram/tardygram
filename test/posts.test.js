@@ -68,7 +68,12 @@ describe('users routes', () => {
         expect(res.body).toEqual({
           _id: post._id.toString(),
           photoUrl: 'http://generic_photo.jpg',
-          user: user._id.toString(),
+          user: {
+            _id: user._id.toString(),
+            profilePhotoUrl: 'http://test.jpeg',
+            username: 'signin@test.com',
+            __v: 0
+          },
           caption: 'Awesome pic!! Yay',
           tags: ['cats', 'kittens'],
           __v: 0

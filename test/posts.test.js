@@ -60,6 +60,22 @@ describe('users routes', () => {
       });
   });
 
+  it('returns a post by its id', () => {
+    return request(app)
+      .get(`/api/v1/posts/${post._id}`)
+      .set('Cookie', [`session=${token}`])
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: post._id.toString(),
+          photoUrl: 'http://generic_photo.jpg',
+          user: user._id.toString(),
+          caption: 'Awesome pic!! Yay',
+          tags: ['cats', 'kittens'],
+          __v: 0
+        });
+      });
+  });
+
   it('returns a list of all posts', () => {
     return request(app)
       .get('/api/v1/posts')

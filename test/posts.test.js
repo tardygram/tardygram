@@ -5,6 +5,7 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const User = require('../lib/models/User');
+const Post = require('../lib/models/Post');
 
 describe('users routes', () => {
   beforeAll(() => {
@@ -17,6 +18,7 @@ describe('users routes', () => {
 
   let user;
   let token;
+  let post;
   beforeEach(async() => {
     user = await User.create({
       username: 'signin@test.com',
@@ -24,6 +26,12 @@ describe('users routes', () => {
       profilePhotoUrl: 'http://test.jpeg'
     });
     token = user.authToken();
+    post = await Post.create({
+      photoUrl: 'http://generic_photo.jpg',
+      user: user._id,
+      caption: 'Awesome pic!! Yay',
+      tags: ['cats', 'kittens']
+    });
   });
 
   afterAll(() => {
@@ -47,6 +55,22 @@ describe('users routes', () => {
           user: user._id.toString(),
           caption: 'Awesome pic!!',
           tags: ['dogs', 'puppies'],
+          __v: 0
+        });
+      });
+  });
+
+  it('returns a post by its id', () => {
+    return request(app)
+      .get(`/api/v1/posts/${post._id}`)
+      .set('Cookie', [`session=${token}`])
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: post._id.toString(),
+          photoUrl: 'http://generic_photo.jpg',
+          user: user._id.toString(),
+          caption: 'Awesome pic!! Yay',
+          tags: ['cats', 'kittens'],
           __v: 0
         });
       });

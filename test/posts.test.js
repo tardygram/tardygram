@@ -98,7 +98,6 @@ describe('users routes', () => {
   it('returns a list of all posts', () => {
     return request(app)
       .get('/api/v1/posts')
-      .set('Cookie', [`session=${token}`])
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));
         expect(res.body[0]).toEqual({

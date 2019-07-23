@@ -115,37 +115,15 @@ describe('users routes', () => {
       .patch(`/api/v1/posts/${post._id}`)
       .set('Cookie', [`session=${token}`])
       .send({
-        photoUrl: 'http://newPhoto.jpg',
         caption: 'Awesome pic!! Again.',
-        tags: ['cats', 'kittens', 'rainbows']
       })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           user: user._id.toString(),
-          photoUrl: 'http://newPhoto.jpg',
-          caption: 'Awesome pic!! Again.',
-          tags: ['cats', 'kittens', 'rainbows'],
-          __v: 0
-        });
-      });
-  });
-
-  it('updates a post with partial info', () => {
-    return request(app)
-      .patch(`/api/v1/posts/${post._id}`)
-      .set('Cookie', [`session=${token}`])
-      .send({
-        caption: 'Awesome pic!! Again.',
-        tags: ['cats', 'kittens', 'rainbows']
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          _id: post._id.toString(),
-          user: user._id.toString(),
           photoUrl: 'http://generic_photo.jpg',
           caption: 'Awesome pic!! Again.',
-          tags: ['cats', 'kittens', 'rainbows'],
+          tags: ['cats', 'kittens'],
           __v: 0
         });
       });
@@ -157,7 +135,6 @@ describe('users routes', () => {
       .set('Cookie', [`session=${token2}`])
       .send({
         caption: 'Awesome pic!! Again.',
-        tags: ['cats', 'kittens', 'rainbows']
       })
       .then(res => {
         expect(res.body).toEqual({

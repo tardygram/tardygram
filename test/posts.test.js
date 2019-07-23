@@ -60,26 +60,6 @@ describe('users routes', () => {
       });
   });
 
-  it('updates a post', () => {
-    return request(app)
-      .patch(`/api/v1/posts/${post._id}`)
-      .set('Cookie', [`session=${token}`])
-      .send({
-        photoUrl: 'http://newPhoto.jpg',
-        caption: 'Awesome pic!! Again.',
-        tags: ['cats', 'kittens', 'rainbows'] 
-      })
-      .then(res => {
-        expect(res.body).toEqual({
-          _id: expect.any(String),
-          user: user._id.toString(),
-          photoUrl: 'http://newPhoto.jpg',
-          caption: 'Awesome pic!! Again.',
-          tags: ['cats', 'kittens', 'rainbows'],
-          __v: 0
-        });
-      });
-  });
   it('returns a post by its id', () => {
     return request(app)
       .get(`/api/v1/posts/${post._id}`)

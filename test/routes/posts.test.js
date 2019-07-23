@@ -39,6 +39,14 @@ describe('users routes', () => {
           },
           caption: posts[0].caption,
           tags: posts[0].tags,
+          comments: expect.any(Array),
+          __v: 0
+        });
+        expect(res.body.comments[0]).toEqual({
+          _id: expect.any(String),
+          commentBy: expect.any(String),
+          post: posts[0]._id.toString(),
+          comment: expect.any(String),
           __v: 0
         });
       });

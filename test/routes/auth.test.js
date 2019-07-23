@@ -1,35 +1,8 @@
-require('dotenv').config();
-
-const request = require('supertest');
-const app = require('../../lib/app');
-const connect = require('../../lib/utils/connect');
-const mongoose = require('mongoose');
-const User = require('../../lib/models/User');
+const { getAgent, getUsers } = require('../data-helpers');
 
 describe('users routes', () => {
-  beforeAll(() => {
-    connect();
-  });
-
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  let user;
-  beforeEach(async() => {
-    user = await User.create({
-      username: 'signin@test.com',
-      password: 'password',
-      profilePhotoUrl: 'http://test.jpeg'
-    });
-  });
-
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
   it('creates and returns new user', () => {
-    return request(app)
+    return getAgent()
       .post('/api/v1/auth/signup')
       .send({
         username: 'test@test.com',
@@ -48,7 +21,8 @@ describe('users routes', () => {
   });
 
   it('signs in a user, returns user', () => {
-    return request(app)
+    const user = getUsers()[0];
+    return getAgent()
       .post('/api/v1/auth/signin')
       .send({
         username: user.username,
@@ -57,24 +31,23 @@ describe('users routes', () => {
       .then(res => {
         expect(res.header['set-cookie']).toBeTruthy();
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          username: 'signin@test.com',
-          profilePhotoUrl: 'http://test.jpeg',
+          _id: user._id.toString(),
+          username: user.username,
+          profilePhotoUrl: user.profilePhotoUrl,
           __v: 0
         });
       });
   });
 
   it('verifies a user with token, returns user', () => {
-    const token = user.authToken();
-    return request(app)
+    const user = getUsers()[0];
+    return getAgent()
       .get('/api/v1/auth/verify')
-      .set('Cookie', [`session=${token}`])
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          username: 'signin@test.com',
-          profilePhotoUrl: 'http://test.jpeg',
+          _id: user._id.toString(),
+          username: user.username,
+          profilePhotoUrl: user.profilePhotoUrl,
           __v: 0
         });
       });

@@ -141,14 +141,16 @@ describe('users routes', () => {
       profilePhotoUrl: 'http://test.jpeg'
     });
 
+    const token2 = user2.authToken();
+
     const post2 = await Post.create({
       photoUrl: 'http://generic_photo2.jpg',
-      user: user2._id
+      user: user._id
     });
 
     return request(app)
       .patch(`/api/v1/posts/${post2._id}`)
-      .set('Cookie', [`session=${token}`])
+      .set('Cookie', [`session=${token2}`])
       .send({
         caption: 'Awesome pic!! Again.',
         tags: ['cats', 'kittens', 'rainbows'] 

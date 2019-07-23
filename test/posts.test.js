@@ -114,6 +114,55 @@ describe('users routes', () => {
       });
   });
 
+  it('updates a post with partial info', () => {
+    return request(app)
+      .patch(`/api/v1/posts/${post._id}`)
+      .set('Cookie', [`session=${token}`])
+      .send({
+        caption: 'Awesome pic!! Again.',
+        tags: ['cats', 'kittens', 'rainbows'] 
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: post._id.toString(),
+          user: user._id.toString(),
+          photoUrl: 'http://generic_photo.jpg',
+          caption: 'Awesome pic!! Again.',
+          tags: ['cats', 'kittens', 'rainbows'],
+          __v: 0
+        });
+      });
+  });
+
+  it('does not update a post when user did not create post', async() => {
+    const user2 = await User.create({
+      username: 'user2',
+      password: 'password',
+      profilePhotoUrl: 'http://test.jpeg'
+    });
+
+    const token2 = user2.authToken();
+
+    const post2 = await Post.create({
+      photoUrl: 'http://generic_photo2.jpg',
+      user: user._id
+    });
+
+    return request(app)
+      .patch(`/api/v1/posts/${post2._id}`)
+      .set('Cookie', [`session=${token2}`])
+      .send({
+        caption: 'Awesome pic!! Again.',
+        tags: ['cats', 'kittens', 'rainbows'] 
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          message: 'You are not logged in as the correct user', 
+          status: 500
+        });
+      });
+  });
+
   it('deletes a post with DELETE', () => {
     return request(app)
       .delete(`/api/v1/posts/${post._id}`)

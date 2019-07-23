@@ -46,6 +46,21 @@ module.exports = async({ users = 5, posts = 10, comments = 20 } = { users: 5, po
     }))
   );
 
+  const matchComment = await Comment.create({
+    commentBy: createdUsers[0]._id,
+    post: createdPosts[0]._id,
+    comment: chance.sentence()
+  });
+
+  const notMatchComment = await Comment.create({
+    commentBy: createdUsers[1]._id,
+    post: createdPosts[0]._id,
+    comment: chance.sentence()
+  });
+
+  createdComments.unshift(notMatchComment);
+  createdComments.unshift(matchComment);
+
   return {
     users: createdUsers,
     posts: createdPosts,

@@ -60,6 +60,23 @@ describe('users routes', () => {
       });
   });
 
+  it('returns a list of all posts', () => {
+    return request(app)
+      .get('/api/v1/posts')
+      .set('Cookie', [`session=${token}`])
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body[0]).toEqual({
+          _id: expect.any(String),
+          photoUrl: expect.any(String),
+          user: expect.any(String),
+          caption: expect.any(String),
+          tags: expect.any(Array),
+          __v: 0
+        });
+      });
+  });
+
   it('updates a post', () => {
     return request(app)
       .patch(`/api/v1/posts/${post._id}`)
@@ -67,7 +84,7 @@ describe('users routes', () => {
       .send({
         photoUrl: 'http://newPhoto.jpg',
         caption: 'Awesome pic!! Again.',
-        tags: ['cats', 'kittens', 'rainbows'] 
+        tags: ['cats', 'kittens', 'rainbows']
       })
       .then(res => {
         expect(res.body).toEqual({

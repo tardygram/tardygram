@@ -31,7 +31,7 @@ describe('users routes', () => {
       user: user._id,
       caption: 'Awesome pic!! Yay',
       tags: ['cats', 'kittens']
-    })
+    });
   });
 
   afterAll(() => {
@@ -77,7 +77,17 @@ describe('users routes', () => {
           caption: 'Awesome pic!! Again.',
           tags: ['cats', 'kittens', 'rainbows'],
           __v: 0
-        })
-      })
-  })
+        });
+      });
+  });
+
+  it('deletes a post with DELETE', () => {
+    return request(app)
+      .delete(`/api/v1/posts/${post._id}`)
+      .set('Cookie', [`session=${token}`])
+      .then(res => {
+        const postJSON = JSON.parse(JSON.stringify(post));
+        expect(res.body).toEqual(postJSON);
+      });
+  });
 });

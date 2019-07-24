@@ -3,7 +3,7 @@ const Post = require('../lib/models/Post');
 const Comment = require('../lib/models/Comment');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 5, posts = 20, comments = 500 } = { users: 5, posts: 20, comments: 500 }) => {
+module.exports = async({ users = 20, posts = 100, comments = 500 } = { users: 20, posts: 100, comments: 500 }) => {
   const createdUsers = await User.create(
     [...Array(users)].map(() => ({
       username: chance.name(),

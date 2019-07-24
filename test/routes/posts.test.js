@@ -68,6 +68,22 @@ describe('users routes', () => {
       });
   });
 
+  it('returns 10 most popular posts', () => {
+    return getAgent()
+      .get('/api/v1/posts/popular')
+      .then(res => {
+        expect(res.body).toHaveLength(10);
+        expect(res.body[0]).toEqual({
+          _id: expect.any(String),
+          photoUrl: expect.any(String),
+          user: expect.any(String),
+          caption: expect.any(String),
+          tags: expect.any(Array),
+          __v: 0
+        });
+      });
+  });
+
   it('updates a post', () => {
     const posts = getPosts();
     return getAgent()

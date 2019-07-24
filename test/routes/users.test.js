@@ -10,7 +10,7 @@ describe('users routes', () => {
         expect(res.body[0]).toEqual({
           _id: expect.any(String),
           username: expect.any(String),
-          total_comments: expect.any(Number),
+          totalComments: expect.any(Number),
           profilePhotoUrl: expect.any(String)
         });
       });

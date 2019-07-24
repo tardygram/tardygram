@@ -1,6 +1,6 @@
 const { getAgent, getPosts, getUsers } = require('../data-helpers');
 
-describe('users routes', () => {
+describe('posts routes', () => {
   it('creates a new post', () => {
     const users = getUsers();
     return getAgent()

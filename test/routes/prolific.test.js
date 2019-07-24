@@ -10,6 +10,7 @@ describe('users routes', () => {
           _id: expect.any(String),
           username: expect.any(String),
           profilePhotoUrl: expect.any(String),
+          postCount: expect.any(Number),
           __v: 0
         });
       });

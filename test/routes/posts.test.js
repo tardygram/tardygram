@@ -78,8 +78,8 @@ describe('posts routes', () => {
           photoUrl: expect.any(String),
           user: expect.any(String),
           caption: expect.any(String),
-          tags: expect.any(Array),
-          __v: 0
+          commentCount: expect.any(Number),
+          tags: expect.any(Array)
         });
       });
   });

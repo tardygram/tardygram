@@ -37,8 +37,8 @@ describe('users routes', () => {
         expect(res.body[0]).toEqual({
           _id: expect.any(String),
           username: expect.any(String),
-          profilePhotoUrl: expect.any(String),
-          __v: 0
+          commentCount: expect.any(Number),
+          profilePhotoUrl: expect.any(String)
         });
       });
   });
